@@ -19,7 +19,7 @@ $(function() {
         //     "Plantower PMS7003": "7003",
         //     "Plantower PMSA003": "A003"
         // }
-        self.serialPortsListEdit = ko.computed(function() {
+/*         self.serialPortsListEdit = ko.computed(function() {
             var fullList = [];
             if (self.selectedDevice() !== undefined) {
                 console.log("selected device port: " + self.selectedDevice().port());
@@ -32,7 +32,15 @@ $(function() {
             fullList.push(...self.serialPortsList());
             console.log(fullList);
             return fullList;
-        }, self);
+        }, self); */
+
+        self.serialPortsListEdit = ko.computed(function() {
+            var fulllist = ko.utils.arrayMap(self.serialPortsList(), function(item) {
+                if(item() !== self.selectedDevice().port())
+                    return item();
+            });
+            return fulllist.sort();
+        });
 
         self.supportedDevices = {
             "5003": "Plantower PMS5003",
